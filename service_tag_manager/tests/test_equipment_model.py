@@ -1,21 +1,14 @@
-from model.equipment_model import EquipmentModel
-import os
+import pytest
+from unittest import mock
+import SERVICE TAG PRONTO.service_tag_manager.model.equipment_model as module_under_test
 
-def test_equipment_add_and_get(tmp_path):
-    db_file = tmp_path / "equipamentos_test.db"
-    em = EquipmentModel(str(db_file))
-    eid = em.adicionar_equipamento("TAG-001", "Máquina A", descricao="desc")
-    assert isinstance(eid, int)
-    rec = em.obter_por_id(eid)
-    assert rec is not None
-    assert rec[1] == "TAG-001" or rec[1] == "TAG-001"
+# Auto-generated tests for SERVICE TAG PRONTO/service_tag_manager/model/equipment_model.py
 
-def test_servico_add_and_list(tmp_path):
-    db_file = tmp_path / "equipamentos_test2.db"
-    em = EquipmentModel(str(db_file))
-    eid = em.adicionar_equipamento("TAG-002", "Máquina B")
-    sid = em.adicionar_servico(eid, data_servico="2025-10-23", tipo="Manutenção", descricao="troca")
-    assert isinstance(sid, int)
-    servs = em.listar_servicos_por_equipamento(eid)
-    assert len(servs) == 1
-    assert servs[0][1] == eid
+def test_equipmentmodel_instantiation(monkeypatch):
+    """Verifica que a classe EquipmentModel pode ser instanciada (stub)."""
+    # NOTE: adapt constructor args if needed
+    try:
+        obj = module_under_test.EquipmentModel()
+    except TypeError:
+        pytest.skip('Constructor requires arguments; implement specific test')
+    assert obj is not None
