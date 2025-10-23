@@ -1,6 +1,6 @@
 import pytest
 from unittest import mock
-import SERVICE TAG PRONTO.service_tag_manager.controller.main_controller as module_under_test
+import service_tag_manager.controller.main_controller as module_under_test
 
 # Auto-generated tests for SERVICE TAG PRONTO/service_tag_manager/controller/main_controller.py
 

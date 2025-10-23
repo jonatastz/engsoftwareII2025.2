@@ -1,6 +1,6 @@
 import pytest
 from unittest import mock
-import SERVICE TAG PRONTO.service_tag_manager.view.consultaview as module_under_test
+import service_tag_manager.view.consultaview as module_under_test
 
 # Auto-generated tests for SERVICE TAG PRONTO/service_tag_manager/view/consultaview.py
 
