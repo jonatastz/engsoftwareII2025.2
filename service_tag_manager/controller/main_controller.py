@@ -1,9 +1,12 @@
 
 from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import Qt, QDate
-from view.service_dialog import ServiceDialog
-from view.service_history_dialog import ServiceHistoryDialog
-from view.detalheview import DetalheView
+#from view.service_dialog import ServiceDialog
+from service_tag_manager.view.service_dialog import ServiceDialog
+
+#from view.service_history_dialog import ServiceHistoryDialog
+from service_tag_manager.view.service_history_dialog import ServiceHistoryDialog
+from service_tag_manager.view.detalheview import DetalheView
 
 class MainController:
     def _date_str_safe(self, date_edit):
