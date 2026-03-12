@@ -1,34 +1,32 @@
-name: SonarCloud
+name: sonarcloud
 
 on:
   push:
     branches:
-      - principal
       - main
-  pull_request:
+      - principal
 
 jobs:
   sonarcloud:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
-          fetch-depth: 0
+          python-version: '3.13'
 
-      - uses: actions/setup-python@v5
-        with:
-          python-version: "3.13"
-
-      - name: Instalar dependências
+      - name: Install dependencies
         run: |
-          pip install pytest pytest-cov PyQt5 ruff pyright PyQt5-stubs
+          pip install pytest pytest-cov
 
-      - name: Rodar testes
+      - name: Run tests
         run: |
-          pytest TESTES-ETAPAFINAL/tests --cov=TESTES-ETAPAFINAL/service_tag_manager --cov-report=xml:coverage.xml
+          pytest TESTES-ETAPAFINAL/tests --cov=TESTES-ETAPAFINAL/service_tag_manager --cov-report=xml
 
       - name: SonarCloud Scan
-        uses: SonarSource/sonarqube-scan-action@v7
+        uses: SonarSource/sonarqube-scan-action@v2
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
