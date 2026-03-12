@@ -1,11 +1,14 @@
-import sqlite3
 import os
+import sqlite3
 
 
 class EquipmentModel:
     def __init__(self, db_path="equipamentos.db"):
-        # Garantir caminho absoluto para o banco (evitar DB vazio por diretório de execução diferente)
-        db_path = db_path if os.path.isabs(db_path) else os.path.normpath(os.path.join(os.path.dirname(__file__), '..', db_path))
+        db_path = (
+            db_path
+            if os.path.isabs(db_path)
+            else os.path.normpath(os.path.join(os.path.dirname(__file__), "..", db_path))
+        )
         self.conn = sqlite3.connect(db_path)
         self.conn.execute("PRAGMA foreign_keys = ON;")
         self._criar_tabelas()
@@ -13,7 +16,8 @@ class EquipmentModel:
 
     def _criar_tabelas(self):
         c = self.conn.cursor()
-        c.execute("""
+        c.execute(
+            """
             CREATE TABLE IF NOT EXISTS equipamentos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 tag TEXT NOT NULL UNIQUE,
@@ -31,8 +35,10 @@ class EquipmentModel:
                 garantia_meses INTEGER,
                 observacoes TEXT
             )
-        """)
-        c.execute("""
+            """
+        )
+        c.execute(
+            """
             CREATE TABLE IF NOT EXISTS servicos (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 equipamento_id INTEGER NOT NULL,
@@ -46,7 +52,8 @@ class EquipmentModel:
                 observacoes TEXT,
                 FOREIGN KEY(equipamento_id) REFERENCES equipamentos(id) ON DELETE CASCADE
             )
-        """ )
+            """
+        )
         self.conn.commit()
 
     def _garantir_indices(self):
@@ -60,68 +67,144 @@ class EquipmentModel:
         self.conn.commit()
 
     # ===== Equipamentos =====
-    def adicionar_equipamento(self, tag, nome, descricao=None, cliente=None, modelo=None, serial=None,
-                              tipo_servico=None, status=None, prioridade=None, proxima_manutencao=None,
-                              custo=None, garantia_meses=None, observacoes=None):
+    def adicionar_equipamento(
+        self,
+        tag,
+        nome,
+        descricao=None,
+        cliente=None,
+        modelo=None,
+        serial=None,
+        tipo_servico=None,
+        status=None,
+        prioridade=None,
+        proxima_manutencao=None,
+        custo=None,
+        garantia_meses=None,
+        observacoes=None,
+    ):
         c = self.conn.cursor()
-        c.execute("""
+        c.execute(
+            """
             INSERT INTO equipamentos
             (tag, nome, descricao, cliente, modelo, serial, tipo_servico, status, prioridade,
              proxima_manutencao, custo, garantia_meses, observacoes)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        """, (tag, nome, descricao or "", cliente or "", modelo or "", serial or "",
-               tipo_servico or "", status or "", prioridade or "", proxima_manutencao or "",
-               float(custo or 0.0), int(garantia_meses or 0), observacoes or ""))
+            """,
+            (
+                tag,
+                nome,
+                descricao or "",
+                cliente or "",
+                modelo or "",
+                serial or "",
+                tipo_servico or "",
+                status or "",
+                prioridade or "",
+                proxima_manutencao or "",
+                float(custo or 0.0),
+                int(garantia_meses or 0),
+                observacoes or "",
+            ),
+        )
         self.conn.commit()
         return c.lastrowid
 
-    def atualizar_equipamento(self, equip_id:int, **kwargs):
+    def atualizar_equipamento(self, equip_id: int, **kwargs):
         if not kwargs:
             return False
+
         cols = []
         vals = []
         for k, v in kwargs.items():
             cols.append(f"{k} = ?")
             vals.append(v if v is not None else "")
+
         vals.append(equip_id)
         sql = f"UPDATE equipamentos SET {', '.join(cols)} WHERE id = ?"
+
         c = self.conn.cursor()
         c.execute(sql, vals)
         self.conn.commit()
         return c.rowcount > 0
 
-    def excluir_equipamento(self, equip_id:int):
+    def atualizar(self, equip_id: int, **kwargs):
+        return self.atualizar_equipamento(equip_id, **kwargs)
+
+    def excluir_equipamento(self, equip_id: int):
         c = self.conn.cursor()
         c.execute("DELETE FROM equipamentos WHERE id = ?", (equip_id,))
         self.conn.commit()
         return c.rowcount > 0
 
-    def obter_por_id(self, equip_id:int):
+    def obter_por_id(self, equip_id: int):
         c = self.conn.cursor()
-        c.execute("""
+        c.execute(
+            """
             SELECT id, tag, nome, cliente, modelo, serial, descricao, tipo_servico, status, prioridade,
                    proxima_manutencao, custo, garantia_meses, observacoes, data_cadastro
             FROM equipamentos WHERE id = ?
-        """, (equip_id,))
+            """,
+            (equip_id,),
+        )
         return c.fetchone()
 
-    def consultar(self, termo=None, tag=None, nome=None, cliente=None, modelo=None,
-                  status=None, tipo=None, prioridade=None, prox_ini=None, prox_fim=None):
+    def consultar(
+        self,
+        termo=None,
+        tag=None,
+        nome=None,
+        cliente=None,
+        modelo=None,
+        status=None,
+        tipo=None,
+        prioridade=None,
+        prox_ini=None,
+        prox_fim=None,
+    ):
         where = []
         params = []
+
         if termo:
             like = f"%{termo}%"
             where.append("(tag LIKE ? OR nome LIKE ? OR cliente LIKE ? OR modelo LIKE ?)")
             params += [like, like, like, like]
-        if tag: where.append("tag LIKE ?") or params.append(f"%{tag}%")
-        if nome: where.append("nome LIKE ?") or params.append(f"%{nome}%")
-        if cliente: where.append("cliente LIKE ?") or params.append(f"%{cliente}%")
-        if modelo: where.append("modelo LIKE ?") or params.append(f"%{modelo}%")
-        if status: where.append("status = ?") or params.append(status)
-        if tipo: where.append("tipo_servico = ?") or params.append(tipo)
-        if prioridade: where.append("prioridade = ?") or params.append(prioridade)
-        if prox_ini: where.append("date(COALESCE(proxima_manutencao,'')) >= date(?)") or params.append(prox_ini)
-        if prox_fim: where.append("date(COALESCE(proxima_manutencao,'')) <= date(?)") or params.append(prox_fim)
+
+        if tag:
+            where.append("tag LIKE ?")
+            params.append(f"%{tag}%")
+
+        if nome:
+            where.append("nome LIKE ?")
+            params.append(f"%{nome}%")
+
+        if cliente:
+            where.append("cliente LIKE ?")
+            params.append(f"%{cliente}%")
+
+        if modelo:
+            where.append("modelo LIKE ?")
+            params.append(f"%{modelo}%")
+
+        if status:
+            where.append("status = ?")
+            params.append(status)
+
+        if tipo:
+            where.append("tipo_servico = ?")
+            params.append(tipo)
+
+        if prioridade:
+            where.append("prioridade = ?")
+            params.append(prioridade)
+
+        if prox_ini:
+            where.append("date(COALESCE(proxima_manutencao,'')) >= date(?)")
+            params.append(prox_ini)
+
+        if prox_fim:
+            where.append("date(COALESCE(proxima_manutencao,'')) <= date(?)")
+            params.append(prox_fim)
 
         sql = """
             SELECT id, COALESCE(tag,''), COALESCE(nome,''), COALESCE(cliente,''), COALESCE(modelo,''),
@@ -132,30 +215,56 @@ class EquipmentModel:
         if where:
             sql += " WHERE " + " AND ".join(where)
         sql += " ORDER BY id DESC"
+
         c = self.conn.cursor()
         c.execute(sql, params)
         return c.fetchall()
 
     # ===== Serviços =====
-    def adicionar_servico(self, equipamento_id:int, data_servico=None, tipo=None, descricao=None,
-                          tecnico=None, status=None, custo=None, garantia_meses=None, observacoes=None):
+    def adicionar_servico(
+        self,
+        equipamento_id: int,
+        data_servico=None,
+        tipo=None,
+        descricao=None,
+        tecnico=None,
+        status=None,
+        custo=None,
+        garantia_meses=None,
+        observacoes=None,
+    ):
         c = self.conn.cursor()
-        c.execute("""
+        c.execute(
+            """
             INSERT INTO servicos (equipamento_id, data_servico, tipo, descricao, tecnico, status, custo, garantia_meses, observacoes)
             VALUES (?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?)
-        """, (equipamento_id, data_servico, tipo or "", descricao or "", tecnico or "",
-                status or "", float(custo or 0.0), int(garantia_meses or 0), observacoes or ""))
+            """,
+            (
+                equipamento_id,
+                data_servico,
+                tipo or "",
+                descricao or "",
+                tecnico or "",
+                status or "",
+                float(custo or 0.0),
+                int(garantia_meses or 0),
+                observacoes or "",
+            ),
+        )
         self.conn.commit()
         return c.lastrowid
 
-    def listar_servicos_por_equipamento(self, equipamento_id:int):
+    def listar_servicos_por_equipamento(self, equipamento_id: int):
         c = self.conn.cursor()
-        c.execute("""
+        c.execute(
+            """
             SELECT id, equipamento_id, COALESCE(data_servico,''), COALESCE(tipo,''), COALESCE(descricao,''),
                    COALESCE(tecnico,''), COALESCE(status,''), COALESCE(custo,0.0), COALESCE(garantia_meses,0),
                    COALESCE(observacoes,'')
             FROM servicos
             WHERE equipamento_id = ?
             ORDER BY date(COALESCE(data_servico,'')) DESC, id DESC
-        """, (equipamento_id,))
+            """,
+            (equipamento_id,),
+        )
         return c.fetchall()
