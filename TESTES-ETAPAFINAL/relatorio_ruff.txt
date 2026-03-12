@@ -1,0 +1,1423 @@
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\controller\main_controller.py:1:1
+  |
+1 | / from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
+2 | | from PyQt5.QtCore import QDate
+3 | | from service_tag_manager.view.service_dialog import ServiceDialog
+4 | | from service_tag_manager.view.service_history_dialog import ServiceHistoryDialog
+5 | | from service_tag_manager.view.detalheview import DetalheView
+  | |____________________________________________________________^
+  |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+  --> service_tag_manager\main.py:2:1
+   |
+ 2 | / import sys
+ 3 | | from PyQt5.QtWidgets import QApplication, QStackedWidget
+ 4 | | from model.equipment_model import EquipmentModel
+ 5 | | from view.main_view import MainView
+ 6 | | from view.home_view import HomeView
+ 7 | | from view.consultaview import ConsultaView
+ 8 | | from view.historicoview import HistoricoView
+ 9 | | from controller.main_controller import MainController
+10 | | from view.login_view import LoginDialog
+11 | | from model.auth_model import AuthModel
+   | |______________________________________^
+12 |
+13 |   if __name__ == "__main__":
+   |
+help: Organize imports
+
+E501 Line too long (107 > 100)
+   --> service_tag_manager\main.py:105:101
+    |
+104 |     model = EquipmentModel("equipamentos.db")
+105 |     controller = MainController(stacked_widget, home_view, main_view, consulta_view, historico_view, model)
+    |                                                                                                     ^^^^^^^
+106 |
+107 |     stacked_widget.setWindowTitle("Service Tag Manager")
+    |
+
+E401 [*] Multiple imports on one line
+ --> service_tag_manager\model\auth_model.py:2:1
+  |
+2 | import sqlite3, hashlib
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+3 |
+4 | def _hash(pw: str) -> str:
+  |
+help: Split imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\model\auth_model.py:2:1
+  |
+2 | import sqlite3, hashlib
+  | ^^^^^^^^^^^^^^^^^^^^^^^
+3 |
+4 | def _hash(pw: str) -> str:
+  |
+help: Organize imports
+
+E501 Line too long (110 > 100)
+  --> service_tag_manager\model\auth_model.py:33:101
+   |
+31 |             return False, {}
+32 |         c = self.conn.cursor()
+33 |         c.execute("SELECT id, username, display_name, password_hash FROM users WHERE username=?", (username,))
+   |                                                                                                     ^^^^^^^^^^
+34 |         r = c.fetchone()
+35 |         if not r: return False, {}
+   |
+
+E701 Multiple statements on one line (colon)
+  --> service_tag_manager\model\auth_model.py:35:17
+   |
+33 |         c.execute("SELECT id, username, display_name, password_hash FROM users WHERE username=?", (username,))
+34 |         r = c.fetchone()
+35 |         if not r: return False, {}
+   |                 ^
+36 |         uid, uname, dname, ph = r
+37 |         return (ph == _hash(password)), {"id": uid, "username": uname, "display_name": dname}
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\model\database.py:1:1
+  |
+1 | import sqlite3
+  | ^^^^^^^^^^^^^^
+2 |
+3 | class Database:
+  |
+help: Organize imports
+
+E501 Line too long (107 > 100)
+  --> service_tag_manager\model\database.py:23:101
+   |
+21 |     def insert_equipment(self, service_tag, name, description):
+22 |         cursor = self.conn.cursor()
+23 |         cursor.execute("INSERT INTO equipment (service_tag, equipment_name, description) VALUES (?, ?, ?)",
+   |                                                                                                     ^^^^^^^
+24 |                        (service_tag, name, description))
+25 |         self.conn.commit()
+   |
+
+E501 Line too long (103 > 100)
+   --> service_tag_manager\model\equipment_model.py:144:101
+    |
+142 |         c.execute(
+143 |             """
+144 |             SELECT id, tag, nome, cliente, modelo, serial, descricao, tipo_servico, status, prioridade,
+    |                                                                                                     ^^^
+145 |                    proxima_manutencao, custo, garantia_meses, observacoes, data_cadastro
+146 |             FROM equipamentos WHERE id = ?
+    |
+
+E501 Line too long (102 > 100)
+   --> service_tag_manager\model\equipment_model.py:210:101
+    |
+209 |         sql = """
+210 |             SELECT id, COALESCE(tag,''), COALESCE(nome,''), COALESCE(cliente,''), COALESCE(modelo,''),
+    |                                                                                                     ^^
+211 |                    COALESCE(descricao,''), COALESCE(tipo_servico,''), COALESCE(status,''), COALESCE(prioridade,''),
+212 |                    COALESCE(proxima_manutencao,''), COALESCE(data_cadastro,'')
+    |
+
+E501 Line too long (115 > 100)
+   --> service_tag_manager\model\equipment_model.py:211:101
+    |
+209 |         sql = """
+210 |             SELECT id, COALESCE(tag,''), COALESCE(nome,''), COALESCE(cliente,''), COALESCE(modelo,''),
+211 |                    COALESCE(descricao,''), COALESCE(tipo_servico,''), COALESCE(status,''), COALESCE(prioridade,''),
+    |                                                                                                     ^^^^^^^^^^^^^^^
+212 |                    COALESCE(proxima_manutencao,''), COALESCE(data_cadastro,'')
+213 |             FROM equipamentos
+    |
+
+E501 Line too long (133 > 100)
+   --> service_tag_manager\model\equipment_model.py:239:101
+    |
+237 |         c.execute(
+238 |             """
+239 |             INSERT INTO servicos (equipamento_id, data_servico, tipo, descricao, tecnico, status, custo, garantia_meses, observacoes)
+    |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+240 |             VALUES (?, COALESCE(?, CURRENT_TIMESTAMP), ?, ?, ?, ?, ?, ?, ?)
+241 |             """,
+    |
+
+E501 Line too long (108 > 100)
+   --> service_tag_manager\model\equipment_model.py:261:101
+    |
+259 |         c.execute(
+260 |             """
+261 |             SELECT id, equipamento_id, COALESCE(data_servico,''), COALESCE(tipo,''), COALESCE(descricao,''),
+    |                                                                                                     ^^^^^^^^
+262 |                    COALESCE(tecnico,''), COALESCE(status,''), COALESCE(custo,0.0), COALESCE(garantia_meses,0),
+263 |                    COALESCE(observacoes,'')
+    |
+
+E501 Line too long (110 > 100)
+   --> service_tag_manager\model\equipment_model.py:262:101
+    |
+260 |             """
+261 |             SELECT id, equipamento_id, COALESCE(data_servico,''), COALESCE(tipo,''), COALESCE(descricao,''),
+262 |                    COALESCE(tecnico,''), COALESCE(status,''), COALESCE(custo,0.0), COALESCE(garantia_meses,0),
+    |                                                                                                     ^^^^^^^^^^
+263 |                    COALESCE(observacoes,'')
+264 |             FROM servicos
+    |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\consultaview.py:2:1
+  |
+2 | / from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetIte…
+3 | | from PyQt5.QtCore import QDate
+  | |______________________________^
+4 |
+5 |   class ConsultaView(QWidget):
+  |
+help: Organize imports
+
+E501 Line too long (160 > 100)
+ --> service_tag_manager\view\consultaview.py:2:101
+  |
+2 | …QLabel, QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QDateEdit
+  |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | …
+  |
+
+F401 [*] `PyQt5.QtWidgets.QTableWidgetItem` imported but unused
+ --> service_tag_manager\view\consultaview.py:2:121
+  |
+2 | …, QLabel, QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QDateEdit
+  |                                                             ^^^^^^^^^^^^^^^^
+3 | …
+  |
+help: Remove unused import
+
+F401 [*] `PyQt5.QtWidgets.QDateEdit` imported but unused
+ --> service_tag_manager\view\consultaview.py:2:152
+  |
+2 | …ox, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QDateEdit
+  |                                                                ^^^^^^^^^
+3 | …
+  |
+help: Remove unused import
+
+F401 [*] `PyQt5.QtCore.QDate` imported but unused
+ --> service_tag_manager\view\consultaview.py:3:26
+  |
+2 | from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetIte…
+3 | from PyQt5.QtCore import QDate
+  |                          ^^^^^
+4 |
+5 | class ConsultaView(QWidget):
+  |
+help: Remove unused import: `PyQt5.QtCore.QDate`
+
+E703 [*] Statement ends with an unnecessary semicolon
+  --> service_tag_manager\view\consultaview.py:11:51
+   |
+ 9 |         self.setObjectName("ConsultaPage")
+10 |
+11 |         title = QLabel("Consulta de Equipamentos"); 
+   |                                                   ^
+12 |         root.addWidget(title)
+13 |         title.setObjectName("pageTitle")
+   |
+help: Remove unnecessary semicolon
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:17:39
+   |
+15 | …     # Filters
+16 | …     fl = QHBoxLayout()
+17 | …     self.input_termo = QLineEdit(); self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
+   |                                     ^
+18 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+19 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |
+
+E501 Line too long (108 > 100)
+  --> service_tag_manager\view\consultaview.py:17:101
+   |
+15 | …     # Filters
+16 | …     fl = QHBoxLayout()
+17 | …     self.input_termo = QLineEdit(); self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
+   |                                                                                                   ^^^^^^^^
+18 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+19 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:18:40
+   |
+16 | …     fl = QHBoxLayout()
+17 | …     self.input_termo = QLineEdit(); self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
+18 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |                                      ^
+19 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+20 | …     self.btn_buscar = QPushButton("Buscar")
+   |
+
+E501 Line too long (136 > 100)
+  --> service_tag_manager\view\consultaview.py:18:101
+   |
+16 | …
+17 | …ermo.setPlaceholderText("Tag, nome, cliente, modelo...")
+18 | …status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+19 | …mbo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+20 | …
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:19:44
+   |
+17 | …     self.input_termo = QLineEdit(); self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
+18 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+19 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |                                          ^
+20 | …     self.btn_buscar = QPushButton("Buscar")
+21 | …     self.btn_limpar = QPushButton("Limpar")
+   |
+
+E501 Line too long (118 > 100)
+  --> service_tag_manager\view\consultaview.py:19:101
+   |
+17 | …     self.input_termo = QLineEdit(); self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
+18 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+19 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^
+20 | …     self.btn_buscar = QPushButton("Buscar")
+21 | …     self.btn_limpar = QPushButton("Limpar")
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:22:43
+   |
+20 |         self.btn_buscar = QPushButton("Buscar")
+21 |         self.btn_limpar = QPushButton("Limpar")
+22 |         fl.addWidget(QLabel("Pesquisar:")); fl.addWidget(self.input_termo, 1)
+   |                                           ^
+23 |         fl.addWidget(QLabel("Status:")); fl.addWidget(self.combo_status)
+24 |         fl.addWidget(QLabel("Prioridade:")); fl.addWidget(self.combo_prioridade)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:23:40
+   |
+21 |         self.btn_limpar = QPushButton("Limpar")
+22 |         fl.addWidget(QLabel("Pesquisar:")); fl.addWidget(self.input_termo, 1)
+23 |         fl.addWidget(QLabel("Status:")); fl.addWidget(self.combo_status)
+   |                                        ^
+24 |         fl.addWidget(QLabel("Prioridade:")); fl.addWidget(self.combo_prioridade)
+25 |         fl.addWidget(self.btn_buscar); fl.addWidget(self.btn_limpar)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:24:44
+   |
+22 |         fl.addWidget(QLabel("Pesquisar:")); fl.addWidget(self.input_termo, 1)
+23 |         fl.addWidget(QLabel("Status:")); fl.addWidget(self.combo_status)
+24 |         fl.addWidget(QLabel("Prioridade:")); fl.addWidget(self.combo_prioridade)
+   |                                            ^
+25 |         fl.addWidget(self.btn_buscar); fl.addWidget(self.btn_limpar)
+26 |         root.addLayout(fl)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:25:38
+   |
+23 |         fl.addWidget(QLabel("Status:")); fl.addWidget(self.combo_status)
+24 |         fl.addWidget(QLabel("Prioridade:")); fl.addWidget(self.combo_prioridade)
+25 |         fl.addWidget(self.btn_buscar); fl.addWidget(self.btn_limpar)
+   |                                      ^
+26 |         root.addLayout(fl)
+   |
+
+E501 Line too long (116 > 100)
+  --> service_tag_manager\view\consultaview.py:31:101
+   |
+29 |         self.table_resultados = QTableWidget(0, 11)
+30 |         self.table_resultados.setHorizontalHeaderLabels([
+31 |             "ID","Tag","Nome","Cliente","Modelo","Descrição","Tipo","Status","Prioridade","Próx. Manut.","Data Cad."
+   |                                                                                                     ^^^^^^^^^^^^^^^^
+32 |         ])
+33 |         h = self.table_resultados.horizontalHeader()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\consultaview.py:58:38
+   |
+56 |         self.btn_novo_servico = QPushButton("Novo Serviço")
+57 |         self.btn_voltar_consulta = QPushButton("Voltar")
+58 |         bar.addWidget(self.lbl_count); bar.addStretch(1)
+   |                                      ^
+59 |         for b in [self.btn_novo_servico, self.btn_editar, self.btn_excluir, self.btn_voltar_consulta]:
+60 |             bar.addWidget(b)
+   |
+
+E501 Line too long (102 > 100)
+  --> service_tag_manager\view\consultaview.py:59:101
+   |
+57 |         self.btn_voltar_consulta = QPushButton("Voltar")
+58 |         bar.addWidget(self.lbl_count); bar.addStretch(1)
+59 |         for b in [self.btn_novo_servico, self.btn_editar, self.btn_excluir, self.btn_voltar_consulta]:
+   |                                                                                                     ^^
+60 |             bar.addWidget(b)
+61 |         self.btn_sair = QPushButton("Sair")
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\detalheview.py:2:1
+  |
+2 | / from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QComboBox, QDateEdit, QDoubleSpinBox, QSpinBox, QTextEdit, QDialogButtonBo…
+3 | | from PyQt5.QtCore import QDate
+  | |______________________________^
+4 |
+5 |   class DetalheView(QDialog):
+  |
+help: Organize imports
+
+E501 Line too long (144 > 100)
+ --> service_tag_manager\view\detalheview.py:2:101
+  |
+2 | …Edit, QComboBox, QDateEdit, QDoubleSpinBox, QSpinBox, QTextEdit, QDialogButtonBox, QLabel
+  |                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | …
+  |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:12:34
+   |
+10 |         lay = QFormLayout(self)
+11 |
+12 |         self.fld_id = QLineEdit(); self.fld_id.setReadOnly(True)
+   |                                  ^
+13 |         self.fld_tag = QLineEdit(); self.fld_tag.setReadOnly(True)
+14 |         self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:13:35
+   |
+12 | …     self.fld_id = QLineEdit(); self.fld_id.setReadOnly(True)
+13 | …     self.fld_tag = QLineEdit(); self.fld_tag.setReadOnly(True)
+   |                                 ^
+14 | …     self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:14:36
+   |
+12 | …     self.fld_id = QLineEdit(); self.fld_id.setReadOnly(True)
+13 | …     self.fld_tag = QLineEdit(); self.fld_tag.setReadOnly(True)
+14 | …     self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
+   |                                  ^
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:15:40
+   |
+13 | …     self.fld_tag = QLineEdit(); self.fld_tag.setReadOnly(True)
+14 | …     self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |                                      ^
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 | …     self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+   |
+
+E501 Line too long (136 > 100)
+  --> service_tag_manager\view\detalheview.py:15:101
+   |
+13 | …ReadOnly(True)
+14 | …etReadOnly(True)
+15 | …status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+16 | …mbo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 | ….setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:16:44
+   |
+14 | …     self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |                                          ^
+17 | …     self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+18 | …     self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+   |
+
+E501 Line too long (118 > 100)
+  --> service_tag_manager\view\detalheview.py:16:101
+   |
+14 | …     self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^
+17 | …     self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+18 | …     self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:17:37
+   |
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 | …     self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+   |                                   ^
+18 | …     self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+19 | …     self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:17:76
+   |
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 | …     self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+   |                                                                          ^
+18 | …     self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+19 | …     self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+   |
+
+E501 Line too long (120 > 100)
+  --> service_tag_manager\view\detalheview.py:17:101
+   |
+15 | …     self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+16 | …     self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 | …     self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^
+18 | …     self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+19 | …     self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:18:42
+   |
+16 |         self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 |         self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+18 |         self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+   |                                          ^
+19 |         self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+20 |         self.txt_desc = QTextEdit(); self.txt_obs = QTextEdit()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:18:74
+   |
+16 |         self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 |         self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+18 |         self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+   |                                                                          ^
+19 |         self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+20 |         self.txt_desc = QTextEdit(); self.txt_obs = QTextEdit()
+   |
+
+E501 Line too long (104 > 100)
+  --> service_tag_manager\view\detalheview.py:18:101
+   |
+16 |         self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+17 |         self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+18 |         self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+   |                                                                                                     ^^^^
+19 |         self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+20 |         self.txt_desc = QTextEdit(); self.txt_obs = QTextEdit()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:19:39
+   |
+17 |         self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
+18 |         self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+19 |         self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+   |                                       ^
+20 |         self.txt_desc = QTextEdit(); self.txt_obs = QTextEdit()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:20:36
+   |
+18 |         self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
+19 |         self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
+20 |         self.txt_desc = QTextEdit(); self.txt_obs = QTextEdit()
+   |                                    ^
+21 |
+22 |         lay.addRow(QLabel("ID"), self.fld_id)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:34:43
+   |
+33 |         btns = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel, parent=self)
+34 |         btns.accepted.connect(self.accept); btns.rejected.connect(self.reject)
+   |                                           ^
+35 |         lay.addRow(btns)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:43:38
+   |
+41 |          proxima, custo, garantia, obs, data) = rec
+42 |         self._eid = eid
+43 |         self.fld_id.setText(str(eid)); self.fld_tag.setText(tag or ""); self.fld_nome.setText(nome or "")
+   |                                      ^
+44 |         self.combo_status.setCurrentText(status or "")
+45 |         self.combo_prioridade.setCurrentText(prioridade or "")
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\detalheview.py:43:71
+   |
+41 |          proxima, custo, garantia, obs, data) = rec
+42 |         self._eid = eid
+43 |         self.fld_id.setText(str(eid)); self.fld_tag.setText(tag or ""); self.fld_nome.setText(nome or "")
+   |                                                                       ^
+44 |         self.combo_status.setCurrentText(status or "")
+45 |         self.combo_prioridade.setCurrentText(prioridade or "")
+   |
+
+E501 Line too long (105 > 100)
+  --> service_tag_manager\view\detalheview.py:43:101
+   |
+41 |          proxima, custo, garantia, obs, data) = rec
+42 |         self._eid = eid
+43 |         self.fld_id.setText(str(eid)); self.fld_tag.setText(tag or ""); self.fld_nome.setText(nome or "")
+   |                                                                                                     ^^^^^
+44 |         self.combo_status.setCurrentText(status or "")
+45 |         self.combo_prioridade.setCurrentText(prioridade or "")
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\historicoview.py:1:1
+  |
+1 | / from PyQt5.QtCore import QDate
+2 | |
+3 | | from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QLineEdit, QComboBox, QDateEdit
+  | |________________________________________________________________________________________________________________________________________________________________^
+4 |
+5 |   class HistoricoView(QWidget):
+  |
+help: Organize imports
+
+F401 [*] `PyQt5.QtWidgets.QTableWidgetItem` imported but unused
+ --> service_tag_manager\view\historicoview.py:3:99
+  |
+1 | from PyQt5.QtCore import QDate
+2 |
+3 | from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QLineE…
+  |                                                                                                   ^^^^^^^^^^^^^^^^
+4 |
+5 | class HistoricoView(QWidget):
+  |
+help: Remove unused import: `PyQt5.QtWidgets.QTableWidgetItem`
+
+E501 Line too long (160 > 100)
+ --> service_tag_manager\view\historicoview.py:3:101
+  |
+1 | …
+2 | …
+3 | …QLabel, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QLineEdit, QComboBox, QDateEdit
+  |                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4 | …
+5 | …
+  |
+
+E703 [*] Statement ends with an unnecessary semicolon
+  --> service_tag_manager\view\historicoview.py:11:51
+   |
+ 9 |         self.setObjectName("HistoricoPage")
+10 |
+11 |         title = QLabel("Histórico - Equipamentos"); 
+   |                                                   ^
+12 |         root.addWidget(title)
+13 |         title.setObjectName("pageTitle")
+   |
+help: Remove unnecessary semicolon
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:19:41
+   |
+18 |         fl.addWidget(QLabel("Termo"))
+19 |         self.input_termo_h = QLineEdit(); self.input_termo_h.setPlaceholderText("tag, nome, cliente, modelo...")
+   |                                         ^
+20 |         fl.addWidget(self.input_termo_h)
+   |
+
+E501 Line too long (112 > 100)
+  --> service_tag_manager\view\historicoview.py:19:101
+   |
+18 |         fl.addWidget(QLabel("Termo"))
+19 |         self.input_termo_h = QLineEdit(); self.input_termo_h.setPlaceholderText("tag, nome, cliente, modelo...")
+   |                                                                                                     ^^^^^^^^^^^^
+20 |         fl.addWidget(self.input_termo_h)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:23:42
+   |
+22 | …     fl.addWidget(QLabel("Status"))
+23 | …     self.combo_status_h = QComboBox(); self.combo_status_h.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregu…
+   |                                        ^
+24 | …     fl.addWidget(self.combo_status_h)
+   |
+
+E501 Line too long (140 > 100)
+  --> service_tag_manager\view\historicoview.py:23:101
+   |
+22 | …
+23 | …status_h.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+24 | …
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:27:46
+   |
+26 |         fl.addWidget(QLabel("Prioridade"))
+27 |         self.combo_prioridade_h = QComboBox(); self.combo_prioridade_h.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |                                              ^
+28 |         fl.addWidget(self.combo_prioridade_h)
+   |
+
+E501 Line too long (122 > 100)
+  --> service_tag_manager\view\historicoview.py:27:101
+   |
+26 |         fl.addWidget(QLabel("Prioridade"))
+27 |         self.combo_prioridade_h = QComboBox(); self.combo_prioridade_h.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^
+28 |         fl.addWidget(self.combo_prioridade_h)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:31:38
+   |
+30 |         fl.addWidget(QLabel("Próx. Manut. de"))
+31 |         self.date_ini_h = QDateEdit(); self.date_ini_h.setCalendarPopup(True)
+   |                                      ^
+32 |         self.date_ini_h.setDisplayFormat('yyyy-MM-dd')
+33 |         self.date_ini_h.setDate(QDate.currentDate().addMonths(-1))
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:37:38
+   |
+36 |         fl.addWidget(QLabel("até"))
+37 |         self.date_fim_h = QDateEdit(); self.date_fim_h.setCalendarPopup(True)
+   |                                      ^
+38 |         self.date_fim_h.setDisplayFormat('yyyy-MM-dd')
+39 |         self.date_fim_h.setDate(QDate.currentDate())
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:44:40
+   |
+42 |         self.btn_buscar_h = QPushButton("Buscar")
+43 |         self.btn_limpar_h = QPushButton("Limpar")
+44 |         fl.addWidget(self.btn_buscar_h); fl.addWidget(self.btn_limpar_h)
+   |                                        ^
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\historicoview.py:74:40
+   |
+72 |         self.btn_novo_servico_h = QPushButton("Novo Serviço")
+73 |         self.btn_voltar_historico = QPushButton("Voltar")
+74 |         bar.addWidget(self.lbl_count_h); bar.addStretch(1)
+   |                                        ^
+75 |         for b in [self.btn_ver_historico_h, self.btn_novo_servico_h, self.btn_editar_h, self.btn_excluir_h, self.btn_voltar_historico]:
+76 |             bar.addWidget(b)
+   |
+
+E501 Line too long (135 > 100)
+  --> service_tag_manager\view\historicoview.py:75:101
+   |
+73 |         self.btn_voltar_historico = QPushButton("Voltar")
+74 |         bar.addWidget(self.lbl_count_h); bar.addStretch(1)
+75 |         for b in [self.btn_ver_historico_h, self.btn_novo_servico_h, self.btn_editar_h, self.btn_excluir_h, self.btn_voltar_historico]:
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+76 |             bar.addWidget(b)
+77 |         self.btn_sair = QPushButton("Sair")
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\login_view.py:2:1
+  |
+2 | / from PyQt5.QtWidgets import (
+3 | |     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout, QLineEdit, QDialogButtonBox,
+4 | |     QLabel, QPushButton, QFrame
+5 | | )
+6 | | from PyQt5.QtCore import Qt
+  | |___________________________^
+7 |
+8 |   class LoginDialog(QDialog):
+  |
+help: Organize imports
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\main_view.py:1:1
+  |
+1 | / from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QGridLayout, QLabel, QLineEdit, QTextEdit,
+2 | |                              QComboBox, QDateEdit, QDoubleSpinBox, QSpinBox, QPushButton, QHBoxLayout)
+3 | | from PyQt5.QtCore import QDate
+  | |______________________________^
+4 |
+5 |   class MainView(QMainWindow):
+  |
+help: Organize imports
+
+E501 Line too long (106 > 100)
+ --> service_tag_manager\view\main_view.py:1:101
+  |
+1 | from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QGridLayout, QLabel, QLineEdit, QTextEdit,
+  |                                                                                                     ^^^^^^
+2 |                              QComboBox, QDateEdit, QDoubleSpinBox, QSpinBox, QPushButton, QHBoxLayout)
+3 | from PyQt5.QtCore import QDate
+  |
+
+E501 Line too long (102 > 100)
+ --> service_tag_manager\view\main_view.py:2:101
+  |
+1 | from PyQt5.QtWidgets import (QMainWindow, QWidget, QVBoxLayout, QGridLayout, QLabel, QLineEdit, QTextEdit,
+2 |                              QComboBox, QDateEdit, QDoubleSpinBox, QSpinBox, QPushButton, QHBoxLayout)
+  |                                                                                                     ^^
+3 | from PyQt5.QtCore import QDate
+  |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:9:23
+   |
+ 7 |         super().__init__()
+ 8 |         self.setWindowTitle("CADASTRO DE EQUIPAMENTOS")
+ 9 |         cw = QWidget(); self.setCentralWidget(cw)
+   |                       ^
+10 |         root = QVBoxLayout(cw)
+   |
+
+E703 [*] Statement ends with an unnecessary semicolon
+  --> service_tag_manager\view\main_view.py:12:51
+   |
+10 |         root = QVBoxLayout(cw)
+11 |
+12 |         title = QLabel("Cadastro de Equipamentos"); 
+   |                                                   ^
+13 |         root.addWidget(title)
+14 |         title.setObjectName("pageTitle")
+   |
+help: Remove unnecessary semicolon
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:18:53
+   |
+16 |         grid = QGridLayout()
+17 |         row = 0
+18 |         grid.addWidget(QLabel("Service Tag"), row,0); self.input_tag = QLineEdit(); grid.addWidget(self.input_tag, row,1)
+   |                                                     ^
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+20 |         row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:18:83
+   |
+16 |         grid = QGridLayout()
+17 |         row = 0
+18 |         grid.addWidget(QLabel("Service Tag"), row,0); self.input_tag = QLineEdit(); grid.addWidget(self.input_tag, row,1)
+   |                                                                                   ^
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+20 |         row += 1
+   |
+
+E501 Line too long (121 > 100)
+  --> service_tag_manager\view\main_view.py:18:101
+   |
+16 |         grid = QGridLayout()
+17 |         row = 0
+18 |         grid.addWidget(QLabel("Service Tag"), row,0); self.input_tag = QLineEdit(); grid.addWidget(self.input_tag, row,1)
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+20 |         row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:19:46
+   |
+17 |         row = 0
+18 |         grid.addWidget(QLabel("Service Tag"), row,0); self.input_tag = QLineEdit(); grid.addWidget(self.input_tag, row,1)
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+   |                                              ^
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:19:77
+   |
+17 |         row = 0
+18 |         grid.addWidget(QLabel("Service Tag"), row,0); self.input_tag = QLineEdit(); grid.addWidget(self.input_tag, row,1)
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+   |                                                                             ^
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+   |
+
+E501 Line too long (116 > 100)
+  --> service_tag_manager\view\main_view.py:19:101
+   |
+17 |         row = 0
+18 |         grid.addWidget(QLabel("Service Tag"), row,0); self.input_tag = QLineEdit(); grid.addWidget(self.input_tag, row,1)
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+   |                                                                                                     ^^^^^^^^^^^^^^^^
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:21:49
+   |
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+   |                                                 ^
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+23 |         row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:21:83
+   |
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+   |                                                                                   ^
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+23 |         row += 1
+   |
+
+E501 Line too long (125 > 100)
+  --> service_tag_manager\view\main_view.py:21:101
+   |
+19 |         grid.addWidget(QLabel("Nome"), row,2); self.input_name = QLineEdit(); grid.addWidget(self.input_name, row,3)
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+23 |         row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:22:48
+   |
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+   |                                                ^
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:22:81
+   |
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+   |                                                                                 ^
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+   |
+
+E501 Line too long (122 > 100)
+  --> service_tag_manager\view\main_view.py:22:101
+   |
+20 |         row += 1
+21 |         grid.addWidget(QLabel("Cliente"), row,0); self.input_cliente = QLineEdit(); grid.addWidget(self.input_cliente, row,1)
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:24:48
+   |
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+   |                                                ^
+25 |         grid.addWidget(QLabel("Tipo de Serviço"), row,2); self.combo_tipo_servico = QComboBox(); 
+26 |         self.combo_tipo_servico.addItems(["", "Diagnóstico", "Formatação", "Troca de Peça", "Limpeza", "Outros"])
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:24:81
+   |
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+   |                                                                                 ^
+25 |         grid.addWidget(QLabel("Tipo de Serviço"), row,2); self.combo_tipo_servico = QComboBox(); 
+26 |         self.combo_tipo_servico.addItems(["", "Diagnóstico", "Formatação", "Troca de Peça", "Limpeza", "Outros"])
+   |
+
+E501 Line too long (122 > 100)
+  --> service_tag_manager\view\main_view.py:24:101
+   |
+22 |         grid.addWidget(QLabel("Modelo"), row,2); self.input_modelo = QLineEdit(); grid.addWidget(self.input_modelo, row,3)
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^
+25 |         grid.addWidget(QLabel("Tipo de Serviço"), row,2); self.combo_tipo_servico = QComboBox(); 
+26 |         self.combo_tipo_servico.addItems(["", "Diagnóstico", "Formatação", "Troca de Peça", "Limpeza", "Outros"])
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:25:57
+   |
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+25 |         grid.addWidget(QLabel("Tipo de Serviço"), row,2); self.combo_tipo_servico = QComboBox(); 
+   |                                                         ^
+26 |         self.combo_tipo_servico.addItems(["", "Diagnóstico", "Formatação", "Troca de Peça", "Limpeza", "Outros"])
+27 |         grid.addWidget(self.combo_tipo_servico, row,3)
+   |
+
+E703 [*] Statement ends with an unnecessary semicolon
+  --> service_tag_manager\view\main_view.py:25:96
+   |
+23 |         row += 1
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+25 |         grid.addWidget(QLabel("Tipo de Serviço"), row,2); self.combo_tipo_servico = QComboBox(); 
+   |                                                                                                ^
+26 |         self.combo_tipo_servico.addItems(["", "Diagnóstico", "Formatação", "Troca de Peça", "Limpeza", "Outros"])
+27 |         grid.addWidget(self.combo_tipo_servico, row,3)
+   |
+help: Remove unnecessary semicolon
+
+E501 Line too long (113 > 100)
+  --> service_tag_manager\view\main_view.py:26:101
+   |
+24 |         grid.addWidget(QLabel("Serial"), row,0); self.input_serial = QLineEdit(); grid.addWidget(self.input_serial, row,1)
+25 |         grid.addWidget(QLabel("Tipo de Serviço"), row,2); self.combo_tipo_servico = QComboBox(); 
+26 |         self.combo_tipo_servico.addItems(["", "Diagnóstico", "Formatação", "Troca de Peça", "Limpeza", "Outros"])
+   |                                                                                                     ^^^^^^^^^^^^^
+27 |         grid.addWidget(self.combo_tipo_servico, row,3)
+28 |         row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:29:48
+   |
+27 |         grid.addWidget(self.combo_tipo_servico, row,3)
+28 |         row += 1
+29 |         grid.addWidget(QLabel("Status"), row,0); self.combo_status = QComboBox(); 
+   |                                                ^
+30 |         self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+31 |         grid.addWidget(self.combo_status, row,1)
+   |
+
+E703 [*] Statement ends with an unnecessary semicolon
+  --> service_tag_manager\view\main_view.py:29:81
+   |
+27 |         grid.addWidget(self.combo_tipo_servico, row,3)
+28 |         row += 1
+29 |         grid.addWidget(QLabel("Status"), row,0); self.combo_status = QComboBox(); 
+   |                                                                                 ^
+30 |         self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+31 |         grid.addWidget(self.combo_status, row,1)
+   |
+help: Remove unnecessary semicolon
+
+E501 Line too long (103 > 100)
+  --> service_tag_manager\view\main_view.py:30:101
+   |
+28 |         row += 1
+29 |         grid.addWidget(QLabel("Status"), row,0); self.combo_status = QComboBox(); 
+30 |         self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+   |                                                                                                     ^^^
+31 |         grid.addWidget(self.combo_status, row,1)
+32 |         grid.addWidget(QLabel("Prioridade"), row,2); self.combo_prioridade = QComboBox(); 
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:32:52
+   |
+30 |         self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+31 |         grid.addWidget(self.combo_status, row,1)
+32 |         grid.addWidget(QLabel("Prioridade"), row,2); self.combo_prioridade = QComboBox(); 
+   |                                                    ^
+33 |         self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+34 |         grid.addWidget(self.combo_prioridade, row,3)
+   |
+
+E703 [*] Statement ends with an unnecessary semicolon
+  --> service_tag_manager\view\main_view.py:32:89
+   |
+30 |         self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
+31 |         grid.addWidget(self.combo_status, row,1)
+32 |         grid.addWidget(QLabel("Prioridade"), row,2); self.combo_prioridade = QComboBox(); 
+   |                                                                                         ^
+33 |         self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+34 |         grid.addWidget(self.combo_prioridade, row,3)
+   |
+help: Remove unnecessary semicolon
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:36:58
+   |
+34 | …     grid.addWidget(self.combo_prioridade, row,3)
+35 | …     row += 1
+36 | …     grid.addWidget(QLabel("Próx. Manutenção"), row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+   |                                                        ^
+37 | …     self.date_proxima.setDate(QDate.currentDate()); grid.addWidget(self.date_proxima, row,1)
+38 | …     grid.addWidget(QLabel("Custo (R$)"), row,2); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_c…
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:36:91
+   |
+34 | …     grid.addWidget(self.combo_prioridade, row,3)
+35 | …     row += 1
+36 | …     grid.addWidget(QLabel("Próx. Manutenção"), row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+   |                                                                                         ^
+37 | …     self.date_proxima.setDate(QDate.currentDate()); grid.addWidget(self.date_proxima, row,1)
+38 | …     grid.addWidget(QLabel("Custo (R$)"), row,2); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_c…
+   |
+
+E501 Line too long (132 > 100)
+  --> service_tag_manager\view\main_view.py:36:101
+   |
+34 | …3)
+35 | …
+36 | … row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+   |                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+37 | …e()); grid.addWidget(self.date_proxima, row,1)
+38 | …); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_custo.setDecimals(2)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:37:55
+   |
+35 | …     row += 1
+36 | …     grid.addWidget(QLabel("Próx. Manutenção"), row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+37 | …     self.date_proxima.setDate(QDate.currentDate()); grid.addWidget(self.date_proxima, row,1)
+   |                                                     ^
+38 | …     grid.addWidget(QLabel("Custo (R$)"), row,2); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_c…
+39 | …     grid.addWidget(self.input_custo, row,3)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:38:52
+   |
+36 | …     grid.addWidget(QLabel("Próx. Manutenção"), row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+37 | …     self.date_proxima.setDate(QDate.currentDate()); grid.addWidget(self.date_proxima, row,1)
+38 | …     grid.addWidget(QLabel("Custo (R$)"), row,2); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_c…
+   |                                                  ^
+39 | …     grid.addWidget(self.input_custo, row,3)
+40 | …     row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:38:89
+   |
+36 | …     grid.addWidget(QLabel("Próx. Manutenção"), row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+37 | …     self.date_proxima.setDate(QDate.currentDate()); grid.addWidget(self.date_proxima, row,1)
+38 | …     grid.addWidget(QLabel("Custo (R$)"), row,2); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_c…
+   |                                                                                       ^
+39 | …     grid.addWidget(self.input_custo, row,3)
+40 | …     row += 1
+   |
+
+E501 Line too long (155 > 100)
+  --> service_tag_manager\view\main_view.py:38:101
+   |
+36 | …lf.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+37 | …addWidget(self.date_proxima, row,1)
+38 | …ut_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_custo.setDecimals(2)
+   |                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+39 | …
+40 | …
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:38:123
+   |
+36 | …     grid.addWidget(QLabel("Próx. Manutenção"), row,0); self.date_proxima = QDateEdit(); self.date_proxima.setCalendarPopup(True)
+37 | …     self.date_proxima.setDate(QDate.currentDate()); grid.addWidget(self.date_proxima, row,1)
+38 | …     grid.addWidget(QLabel("Custo (R$)"), row,2); self.input_custo = QDoubleSpinBox(); self.input_custo.setMaximum(1e9); self.input_c…
+   |                                                                                                                         ^
+39 | …     grid.addWidget(self.input_custo, row,3)
+40 | …     row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:41:58
+   |
+39 | …     grid.addWidget(self.input_custo, row,3)
+40 | …     row += 1
+41 | …     grid.addWidget(QLabel("Garantia (meses)"), row,0); self.input_garantia_meses = QSpinBox(); self.input_garantia_meses.setRange(0,…
+   |                                                        ^
+42 | …     grid.addWidget(self.input_garantia_meses, row,1)
+43 | …     row += 1
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:41:98
+   |
+39 | …     grid.addWidget(self.input_custo, row,3)
+40 | …     row += 1
+41 | …     grid.addWidget(QLabel("Garantia (meses)"), row,0); self.input_garantia_meses = QSpinBox(); self.input_garantia_meses.setRange(0,…
+   |                                                                                                ^
+42 | …     grid.addWidget(self.input_garantia_meses, row,1)
+43 | …     row += 1
+   |
+
+E501 Line too long (141 > 100)
+  --> service_tag_manager\view\main_view.py:41:101
+   |
+39 | …
+40 | …
+41 | …,0); self.input_garantia_meses = QSpinBox(); self.input_garantia_meses.setRange(0, 120)
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+42 | …1)
+43 | …
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:44:51
+   |
+42 | …     grid.addWidget(self.input_garantia_meses, row,1)
+43 | …     row += 1
+44 | …     grid.addWidget(QLabel("Descrição"), row,0); self.input_desc = QTextEdit(); grid.addWidget(self.input_desc, row,1,1,3)
+   |                                                 ^
+45 | …     row += 1
+46 | …     grid.addWidget(QLabel("Observações"), row,0); self.input_observacoes = QTextEdit(); grid.addWidget(self.input_observacoes, row,1…
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:44:82
+   |
+42 | …     grid.addWidget(self.input_garantia_meses, row,1)
+43 | …     row += 1
+44 | …     grid.addWidget(QLabel("Descrição"), row,0); self.input_desc = QTextEdit(); grid.addWidget(self.input_desc, row,1,1,3)
+   |                                                                                ^
+45 | …     row += 1
+46 | …     grid.addWidget(QLabel("Observações"), row,0); self.input_observacoes = QTextEdit(); grid.addWidget(self.input_observacoes, row,1…
+   |
+
+E501 Line too long (125 > 100)
+  --> service_tag_manager\view\main_view.py:44:101
+   |
+42 | …     grid.addWidget(self.input_garantia_meses, row,1)
+43 | …     row += 1
+44 | …     grid.addWidget(QLabel("Descrição"), row,0); self.input_desc = QTextEdit(); grid.addWidget(self.input_desc, row,1,1,3)
+   |                                                                                                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+45 | …     row += 1
+46 | …     grid.addWidget(QLabel("Observações"), row,0); self.input_observacoes = QTextEdit(); grid.addWidget(self.input_observacoes, row,1…
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:46:53
+   |
+44 |         grid.addWidget(QLabel("Descrição"), row,0); self.input_desc = QTextEdit(); grid.addWidget(self.input_desc, row,1,1,3)
+45 |         row += 1
+46 |         grid.addWidget(QLabel("Observações"), row,0); self.input_observacoes = QTextEdit(); grid.addWidget(self.input_observacoes, row…
+   |                                                     ^
+47 |
+48 |         root.addLayout(grid)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\main_view.py:46:91
+   |
+44 |         grid.addWidget(QLabel("Descrição"), row,0); self.input_desc = QTextEdit(); grid.addWidget(self.input_desc, row,1,1,3)
+45 |         row += 1
+46 |         grid.addWidget(QLabel("Observações"), row,0); self.input_observacoes = QTextEdit(); grid.addWidget(self.input_observacoes, row…
+   |                                                                                           ^
+47 |
+48 |         root.addLayout(grid)
+   |
+
+E501 Line too long (141 > 100)
+  --> service_tag_manager\view\main_view.py:46:101
+   |
+44 | …lf.input_desc = QTextEdit(); grid.addWidget(self.input_desc, row,1,1,3)
+45 | …
+46 | …self.input_observacoes = QTextEdit(); grid.addWidget(self.input_observacoes, row,1,1,3)
+   |                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+47 | …
+48 | …
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\service_dialog.py:2:1
+  |
+2 | / from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QTextEdit, QDoubleSpinBox, QSpinBox, QDialogButtonBox, QLabel, QDateEdit
+3 | | from PyQt5.QtCore import QDate
+  | |______________________________^
+4 |
+5 |   class ServiceDialog(QDialog):
+  |
+help: Organize imports
+
+E501 Line too long (133 > 100)
+ --> service_tag_manager\view\service_dialog.py:2:101
+  |
+2 | from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QTextEdit, QDoubleSpinBox, QSpinBox, QDialogButtonBox, QLabel, QDateEdit
+  |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 | from PyQt5.QtCore import QDate
+  |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:12:32
+   |
+10 |         lay = QFormLayout(self)
+11 |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+   |                                ^
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:12:66
+   |
+10 |         lay = QFormLayout(self)
+11 |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+   |                                                                  ^
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+   |
+
+E501 Line too long (105 > 100)
+  --> service_tag_manager\view\service_dialog.py:12:101
+   |
+10 |         lay = QFormLayout(self)
+11 |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+   |                                                                                                     ^^^^^
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:13:32
+   |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+   |                                ^
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+15 |         self.garantia = QSpinBox(); self.garantia.setRange(0, 120)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:13:59
+   |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+   |                                                           ^
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+15 |         self.garantia = QSpinBox(); self.garantia.setRange(0, 120)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:14:38
+   |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+   |                                      ^
+15 |         self.garantia = QSpinBox(); self.garantia.setRange(0, 120)
+16 |         self.descricao = QTextEdit(); self.obs = QTextEdit()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:14:66
+   |
+12 |         self.date = QDateEdit(); self.date.setCalendarPopup(True); self.date.setDate(QDate.currentDate())
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+   |                                                                  ^
+15 |         self.garantia = QSpinBox(); self.garantia.setRange(0, 120)
+16 |         self.descricao = QTextEdit(); self.obs = QTextEdit()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:15:35
+   |
+13 |         self.tipo = QLineEdit(); self.status = QLineEdit(); self.tecnico = QLineEdit()
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+15 |         self.garantia = QSpinBox(); self.garantia.setRange(0, 120)
+   |                                   ^
+16 |         self.descricao = QTextEdit(); self.obs = QTextEdit()
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:16:37
+   |
+14 |         self.custo = QDoubleSpinBox(); self.custo.setMaximum(1e9); self.custo.setDecimals(2)
+15 |         self.garantia = QSpinBox(); self.garantia.setRange(0, 120)
+16 |         self.descricao = QTextEdit(); self.obs = QTextEdit()
+   |                                     ^
+17 |
+18 |         lay.addRow(QLabel("Data do serviço:"), self.date)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_dialog.py:28:43
+   |
+27 |         btns = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel, parent=self)
+28 |         btns.accepted.connect(self.accept); btns.rejected.connect(self.reject)
+   |                                           ^
+29 |         lay.addRow(btns)
+   |
+
+I001 [*] Import block is un-sorted or un-formatted
+ --> service_tag_manager\view\service_history_dialog.py:2:1
+  |
+2 | from PyQt5.QtWidgets import QDialog, QVBoxLayout, QTableWidget, QTableWidgetItem, QLabel, QHeaderView
+  | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+3 |
+4 | class ServiceHistoryDialog(QDialog):
+  |
+help: Organize imports
+
+E501 Line too long (101 > 100)
+ --> service_tag_manager\view\service_history_dialog.py:2:101
+  |
+2 | from PyQt5.QtWidgets import QDialog, QVBoxLayout, QTableWidget, QTableWidgetItem, QLabel, QHeaderView
+  |                                                                                                     ^
+3 |
+4 | class ServiceHistoryDialog(QDialog):
+  |
+
+E501 Line too long (125 > 100)
+  --> service_tag_manager\view\service_history_dialog.py:11:101
+   |
+ 9 |         lay = QVBoxLayout(self)
+10 |         t = QTableWidget(0, 9, self)
+11 |         t.setHorizontalHeaderLabels(["ID","Data","Tipo","Status","Técnico","Custo","Garantia (m)","Descrição","Observações"])
+   |                                                                                                     ^^^^^^^^^^^^^^^^^^^^^^^^^
+12 |         h = t.horizontalHeader()
+13 |         h.setSectionResizeMode(0, QHeaderView.ResizeToContents)
+   |
+
+E702 Multiple statements on one line (semicolon)
+  --> service_tag_manager\view\service_history_dialog.py:31:40
+   |
+29 |         for r in rows:
+30 |             # r: (id, equipamento_id, data, tipo, desc, tecnico, status, custo, garantia, obs)
+31 |             row = self.table.rowCount(); self.table.insertRow(row)
+   |                                        ^
+32 |             vals = [r[0], r[2], r[3], r[6], r[5], f"{r[7]:.2f}", r[8], r[4], r[9]]
+33 |             for c, v in enumerate(vals):
+   |
+
+Found 132 errors.
+[*] 22 fixable with the `--fix` option.
