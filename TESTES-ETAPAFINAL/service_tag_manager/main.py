@@ -1,14 +1,14 @@
-
 import sys
-from PyQt5.QtWidgets import QApplication, QStackedWidget
+
+from controller.main_controller import MainController
+from model.auth_model import AuthModel
 from model.equipment_model import EquipmentModel
-from view.main_view import MainView
-from view.home_view import HomeView
+from PyQt5.QtWidgets import QApplication, QStackedWidget
 from view.consultaview import ConsultaView
 from view.historicoview import HistoricoView
-from controller.main_controller import MainController
+from view.home_view import HomeView
 from view.login_view import LoginDialog
-from model.auth_model import AuthModel
+from view.main_view import MainView
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -102,7 +102,9 @@ QTableWidget::item:selected, QTableView::item:selected {
     stacked_widget.addWidget(historico_view)
 
     model = EquipmentModel("equipamentos.db")
-    controller = MainController(stacked_widget, home_view, main_view, consulta_view, historico_view, model)
+    controller = MainController(
+        stacked_widget, home_view, main_view, consulta_view, historico_view, model
+    )
 
     stacked_widget.setWindowTitle("Service Tag Manager")
     stacked_widget.showFullScreen()

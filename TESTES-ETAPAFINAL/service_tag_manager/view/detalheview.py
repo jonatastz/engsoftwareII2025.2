@@ -1,6 +1,17 @@
-
-from PyQt5.QtWidgets import QDialog, QFormLayout, QLineEdit, QComboBox, QDateEdit, QDoubleSpinBox, QSpinBox, QTextEdit, QDialogButtonBox, QLabel
 from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import (
+    QComboBox,
+    QDateEdit,
+    QDialog,
+    QDialogButtonBox,
+    QDoubleSpinBox,
+    QFormLayout,
+    QLabel,
+    QLineEdit,
+    QSpinBox,
+    QTextEdit,
+)
+
 
 class DetalheView(QDialog):
     def __init__(self, parent=None):
@@ -9,15 +20,28 @@ class DetalheView(QDialog):
         self.setWindowTitle("Detalhe do Equipamento")
         lay = QFormLayout(self)
 
-        self.fld_id = QLineEdit(); self.fld_id.setReadOnly(True)
-        self.fld_tag = QLineEdit(); self.fld_tag.setReadOnly(True)
-        self.fld_nome = QLineEdit(); self.fld_nome.setReadOnly(True)
-        self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
-        self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
-        self.date_prox = QDateEdit(); self.date_prox.setCalendarPopup(True); self.date_prox.setDate(QDate.currentDate())
-        self.fld_custo = QDoubleSpinBox(); self.fld_custo.setMaximum(1e9); self.fld_custo.setDecimals(2)
-        self.fld_garantia = QSpinBox(); self.fld_garantia.setRange(0, 120)
-        self.txt_desc = QTextEdit(); self.txt_obs = QTextEdit()
+        self.fld_id = QLineEdit()
+        self.fld_id.setReadOnly(True)
+        self.fld_tag = QLineEdit()
+        self.fld_tag.setReadOnly(True)
+        self.fld_nome = QLineEdit()
+        self.fld_nome.setReadOnly(True)
+        self.combo_status = QComboBox()
+        self.combo_status.addItems(
+            ["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"]
+        )
+        self.combo_prioridade = QComboBox()
+        self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+        self.date_prox = QDateEdit()
+        self.date_prox.setCalendarPopup(True)
+        self.date_prox.setDate(QDate.currentDate())
+        self.fld_custo = QDoubleSpinBox()
+        self.fld_custo.setMaximum(1e9)
+        self.fld_custo.setDecimals(2)
+        self.fld_garantia = QSpinBox()
+        self.fld_garantia.setRange(0, 120)
+        self.txt_desc = QTextEdit()
+        self.txt_obs = QTextEdit()
 
         lay.addRow(QLabel("ID"), self.fld_id)
         lay.addRow(QLabel("Tag"), self.fld_tag)
@@ -31,20 +55,38 @@ class DetalheView(QDialog):
         lay.addRow(QLabel("Observações"), self.txt_obs)
 
         btns = QDialogButtonBox(QDialogButtonBox.Save | QDialogButtonBox.Cancel, parent=self)
-        btns.accepted.connect(self.accept); btns.rejected.connect(self.reject)
+        btns.accepted.connect(self.accept)
+        btns.rejected.connect(self.reject)
         lay.addRow(btns)
 
         self._eid = None
 
     def load_from_record(self, rec):
-        (eid, tag, nome, cliente, modelo, serial, desc, tipo, status, prioridade,
-         proxima, custo, garantia, obs, data) = rec
+        (
+            eid,
+            tag,
+            nome,
+            cliente,
+            modelo,
+            serial,
+            desc,
+            tipo,
+            status,
+            prioridade,
+            proxima,
+            custo,
+            garantia,
+            obs,
+            data,
+        ) = rec
         self._eid = eid
-        self.fld_id.setText(str(eid)); self.fld_tag.setText(tag or ""); self.fld_nome.setText(nome or "")
+        self.fld_id.setText(str(eid))
+        self.fld_tag.setText(tag or "")
+        self.fld_nome.setText(nome or "")
         self.combo_status.setCurrentText(status or "")
         self.combo_prioridade.setCurrentText(prioridade or "")
         if proxima:
-            y, m, d = map(int, (proxima.split("-") + ["1","1","1"])[:3])
+            y, m, d = map(int, (proxima.split("-") + ["1", "1", "1"])[:3])
             self.date_prox.setDate(QDate(y, m, d))
         self.fld_custo.setValue(float(custo or 0.0))
         self.fld_garantia.setValue(int(garantia or 0))

@@ -1,8 +1,9 @@
-from PyQt5.QtWidgets import QApplication, QTableWidgetItem, QMessageBox
 from PyQt5.QtCore import QDate
+from PyQt5.QtWidgets import QApplication, QMessageBox, QTableWidgetItem
+
+from service_tag_manager.view.detalheview import DetalheView
 from service_tag_manager.view.service_dialog import ServiceDialog
 from service_tag_manager.view.service_history_dialog import ServiceHistoryDialog
-from service_tag_manager.view.detalheview import DetalheView
 
 
 class MainController:

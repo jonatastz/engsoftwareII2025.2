@@ -78,4 +78,3 @@ class HomeView(QWidget):
             Qt.TransformationMode.SmoothTransformation,
         )
         self.banner.setPixmap(scaled)
-        

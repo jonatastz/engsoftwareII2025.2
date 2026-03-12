@@ -1,6 +1,15 @@
+from PyQt5.QtWidgets import (
+    QComboBox,
+    QHBoxLayout,
+    QHeaderView,
+    QLabel,
+    QLineEdit,
+    QPushButton,
+    QTableWidget,
+    QVBoxLayout,
+    QWidget,
+)
 
-from PyQt5.QtWidgets import QWidget, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit, QComboBox, QPushButton, QTableWidget, QTableWidgetItem, QHeaderView, QDateEdit
-from PyQt5.QtCore import QDate
 
 class ConsultaView(QWidget):
     def __init__(self):
@@ -8,28 +17,49 @@ class ConsultaView(QWidget):
         root = QVBoxLayout(self)
         self.setObjectName("ConsultaPage")
 
-        title = QLabel("Consulta de Equipamentos"); 
+        title = QLabel("Consulta de Equipamentos")
         root.addWidget(title)
         title.setObjectName("pageTitle")
 
         # Filters
         fl = QHBoxLayout()
-        self.input_termo = QLineEdit(); self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
-        self.combo_status = QComboBox(); self.combo_status.addItems(["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"])
-        self.combo_prioridade = QComboBox(); self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
+        self.input_termo = QLineEdit()
+        self.input_termo.setPlaceholderText("Tag, nome, cliente, modelo...")
+        self.combo_status = QComboBox()
+        self.combo_status.addItems(
+            ["", "Recebido", "Em análise", "Em execução", "Pronto", "Entregue"]
+        )
+        self.combo_prioridade = QComboBox()
+        self.combo_prioridade.addItems(["", "Baixa", "Média", "Alta", "Urgente"])
         self.btn_buscar = QPushButton("Buscar")
         self.btn_limpar = QPushButton("Limpar")
-        fl.addWidget(QLabel("Pesquisar:")); fl.addWidget(self.input_termo, 1)
-        fl.addWidget(QLabel("Status:")); fl.addWidget(self.combo_status)
-        fl.addWidget(QLabel("Prioridade:")); fl.addWidget(self.combo_prioridade)
-        fl.addWidget(self.btn_buscar); fl.addWidget(self.btn_limpar)
+        fl.addWidget(QLabel("Pesquisar:"))
+        fl.addWidget(self.input_termo, 1)
+        fl.addWidget(QLabel("Status:"))
+        fl.addWidget(self.combo_status)
+        fl.addWidget(QLabel("Prioridade:"))
+        fl.addWidget(self.combo_prioridade)
+        fl.addWidget(self.btn_buscar)
+        fl.addWidget(self.btn_limpar)
         root.addLayout(fl)
 
         # Table
         self.table_resultados = QTableWidget(0, 11)
-        self.table_resultados.setHorizontalHeaderLabels([
-            "ID","Tag","Nome","Cliente","Modelo","Descrição","Tipo","Status","Prioridade","Próx. Manut.","Data Cad."
-        ])
+        self.table_resultados.setHorizontalHeaderLabels(
+            [
+                "ID",
+                "Tag",
+                "Nome",
+                "Cliente",
+                "Modelo",
+                "Descrição",
+                "Tipo",
+                "Status",
+                "Prioridade",
+                "Próx. Manut.",
+                "Data Cad.",
+            ]
+        )
         h = self.table_resultados.horizontalHeader()
         h.setSectionResizeMode(0, QHeaderView.ResizeToContents)
         h.setSectionResizeMode(1, QHeaderView.ResizeToContents)
@@ -55,8 +85,14 @@ class ConsultaView(QWidget):
         self.btn_excluir = QPushButton("Excluir")
         self.btn_novo_servico = QPushButton("Novo Serviço")
         self.btn_voltar_consulta = QPushButton("Voltar")
-        bar.addWidget(self.lbl_count); bar.addStretch(1)
-        for b in [self.btn_novo_servico, self.btn_editar, self.btn_excluir, self.btn_voltar_consulta]:
+        bar.addWidget(self.lbl_count)
+        bar.addStretch(1)
+        for b in [
+            self.btn_novo_servico,
+            self.btn_editar,
+            self.btn_excluir,
+            self.btn_voltar_consulta,
+        ]:
             bar.addWidget(b)
         self.btn_sair = QPushButton("Sair")
         bar.addWidget(self.btn_sair)

@@ -72,4 +72,3 @@ class EquipamentoDialog(QDialog):
             "descricao": self.fld_descricao.toPlainText().strip(),
             "observacoes": self.fld_obs.toPlainText().strip(),
         }
-    

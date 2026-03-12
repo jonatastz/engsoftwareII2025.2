@@ -1,5 +1,6 @@
 import sqlite3
 
+
 class Database:
     def __init__(self, db_name="equipments.db"):
         self.conn = sqlite3.connect(db_name)
@@ -20,8 +21,10 @@ class Database:
 
     def insert_equipment(self, service_tag, name, description):
         cursor = self.conn.cursor()
-        cursor.execute("INSERT INTO equipment (service_tag, equipment_name, description) VALUES (?, ?, ?)",
-                       (service_tag, name, description))
+        cursor.execute(
+            "INSERT INTO equipment (service_tag, equipment_name, description) VALUES (?, ?, ?)",
+            (service_tag, name, description),
+        )
         self.conn.commit()
 
     def get_all_equipments(self):
