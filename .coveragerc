@@ -1,0 +1,4 @@
+[run]
+relative_files = True
+source = TESTES-ETAPAFINAL/service_tag_manager
+branch = True

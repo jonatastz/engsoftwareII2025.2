@@ -1,0 +1,12 @@
+[tool.pytest.ini_options]
+testpaths = [
+    "TESTES-ETAPAFINAL/tests"
+]
+norecursedirs = [
+    ".venv",
+    ".pytest_cache",
+    "__pycache__",
+    "BACKUP",
+    "ETAPA1-PYTEST"
+]
+addopts = "--cov=TESTES-ETAPAFINAL/service_tag_manager --cov-report=xml:coverage.xml --cov-report=term"
